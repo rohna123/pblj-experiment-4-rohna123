@@ -1,0 +1,484 @@
+1st exp Create an application to save the employee information using arrays.
+
+class Employee:
+    def __init__(self, emp_id, name, department, salary):
+        self.emp_id = emp_id
+        self.name = name
+        self.department = department
+        self.salary = salary
+
+    def __str__(self):
+        return f"ID: {self.emp_id}, Name: {self.name}, Department: {self.department}, Salary: ${self.salary}"
+
+class EmployeeManagementSystem:
+    def __init__(self):
+        self.employees = []
+
+    def add_employee(self, emp_id, name, department, salary):
+        new_employee = Employee(emp_id, name, department, salary)
+        self.employees.append(new_employee)
+        print(f"Employee {name} added successfully!")
+
+    def view_employees(self):
+        if not self.employees:
+            print("No employees to display.")
+        else:
+            print("\nEmployee List:")
+            for emp in self.employees:
+                print(emp)
+
+    def search_employee(self, emp_id):
+        for emp in self.employees:
+            if emp.emp_id == emp_id:
+                print(f"Employee Found: {emp}")
+                return
+        print("Employee not found.")
+
+    def update_employee(self, emp_id, name=None, department=None, salary=None):
+        for emp in self.employees:
+            if emp.emp_id == emp_id:
+                if name:
+                    emp.name = name
+                if department:
+                    emp.department = department
+                if salary:
+                    emp.salary = salary
+                print(f"Employee {emp_id} updated successfully!")
+                return
+        print("Employee not found.")
+
+    def delete_employee(self, emp_id):
+        for emp in self.employees:
+            if emp.emp_id == emp_id:
+                self.employees.remove(emp)
+                print(f"Employee {emp_id} deleted successfully!")
+                return
+        print("Employee not found.")
+
+# Menu-driven interface
+def main():
+    system = EmployeeManagementSystem()
+
+    while True:
+        print("\nEmployee Management System")
+        print("1. Add Employee")
+        print("2. View Employees")
+        print("3. Search Employee by ID")
+        print("4. Update Employee Information")
+        print("5. Delete Employee")
+        print("6. Exit")
+        
+        choice = input("Enter your choice: ")
+        
+        if choice == "1":
+            emp_id = input("Enter Employee ID: ")
+            name = input("Enter Employee Name: ")
+            department = input("Enter Employee Department: ")
+            salary = float(input("Enter Employee Salary: "))
+            system.add_employee(emp_id, name, department, salary)
+        
+        elif choice == "2":
+            system.view_employees()
+        
+        elif choice == "3":
+            emp_id = input("Enter Employee ID to search: ")
+            system.search_employee(emp_id)
+        
+        elif choice == "4":
+            emp_id = input("Enter Employee ID to update: ")
+            name = input("Enter new Name (or press Enter to keep unchanged): ")
+            department = input("Enter new Department (or press Enter to keep unchanged): ")
+            salary = input("Enter new Salary (or press Enter to keep unchanged): ")
+            salary = float(salary) if salary else None
+            system.update_employee(emp_id, name or None, department or None, salary)
+        
+        elif choice == "5":
+            emp_id = input("Enter Employee ID to delete: ")
+            system.delete_employee(emp_id)
+        
+        elif choice == "6":
+            print("Exiting the system...")
+            break
+        
+        else:
+            print("Invalid choice. Please try again.")
+
+if __name__ == "__main__":
+    main()
+
+
+2nd exp Design and implement a simple inventory control system for a small video rental store.
+
+class Movie:
+    def __init__(self, movie_id, title, director, year, rental_price, available=True):
+        self.movie_id = movie_id
+        self.title = title
+        self.director = director
+        self.year = year
+        self.rental_price = rental_price
+        self.available = available
+
+    def __str__(self):
+        return f"ID: {self.movie_id}, Title: {self.title}, Director: {self.director}, Year: {self.year}, Price: ${self.rental_price}, Available: {'Yes' if self.available else 'No'}"
+
+class InventoryControlSystem:
+    def __init__(self):
+        self.movies = []
+
+    def add_movie(self, movie_id, title, director, year, rental_price):
+        new_movie = Movie(movie_id, title, director, year, rental_price)
+        self.movies.append(new_movie)
+        print(f"Movie '{title}' added successfully!")
+
+    def view_movies(self):
+        if not self.movies:
+            print("No movies available in the inventory.")
+        else:
+            print("\nMovies in Inventory:")
+            for movie in self.movies:
+                print(movie)
+
+    def search_movie(self, movie_id=None, title=None):
+        for movie in self.movies:
+            if (movie_id and movie.movie_id == movie_id) or (title and title.lower() in movie.title.lower()):
+                print(f"Movie Found: {movie}")
+                return
+        print("Movie not found.")
+
+    def update_movie(self, movie_id, rental_price=None, available=None):
+        for movie in self.movies:
+            if movie.movie_id == movie_id:
+                if rental_price is not None:
+                    movie.rental_price = rental_price
+                if available is not None:
+                    movie.available = available
+                print(f"Movie {movie_id} updated successfully!")
+                return
+        print("Movie not found.")
+
+    def delete_movie(self, movie_id):
+        for movie in self.movies:
+            if movie.movie_id == movie_id:
+                self.movies.remove(movie)
+                print(f"Movie {movie_id} deleted successfully!")
+                return
+        print("Movie not found.")
+
+    def rent_movie(self, movie_id):
+        for movie in self.movies:
+            if movie.movie_id == movie_id:
+                if movie.available:
+                    movie.available = False
+                    print(f"Movie '{movie.title}' rented successfully!")
+                else:
+                    print(f"Movie '{movie.title}' is currently not available.")
+                return
+        print("Movie not found.")
+
+# Menu-driven interface
+def main():
+    system = InventoryControlSystem()
+
+    while True:
+        print("\nVideo Rental Store Inventory System")
+        print("1. Add Movie")
+        print("2. View Movies")
+        print("3. Search Movie by ID or Title")
+        print("4. Update Movie Information")
+        print("5. Delete Movie")
+        print("6. Rent Movie")
+        print("7. Exit")
+        
+        choice = input("Enter your choice: ")
+
+        if choice == "1":
+            movie_id = input("Enter Movie ID: ")
+            title = input("Enter Movie Title: ")
+            director = input("Enter Director: ")
+            year = input("Enter Year of Release: ")
+            rental_price = float(input("Enter Rental Price: $"))
+            system.add_movie(movie_id, title, director, year, rental_price)
+        
+        elif choice == "2":
+            system.view_movies()
+        
+        elif choice == "3":
+            search_type = input("Search by (1) ID or (2) Title: ")
+            if search_type == "1":
+                movie_id = input("Enter Movie ID: ")
+                system.search_movie(movie_id=movie_id)
+            elif search_type == "2":
+                title = input("Enter Movie Title: ")
+                system.search_movie(title=title)
+        
+        elif choice == "4":
+            movie_id = input("Enter Movie ID to update: ")
+            rental_price = input("Enter new Rental Price (or press Enter to keep unchanged): ")
+            rental_price = float(rental_price) if rental_price else None
+            available = input("Enter new Availability (yes/no, or press Enter to keep unchanged): ")
+            available = available.lower() == "yes" if available else None
+            system.update_movie(movie_id, rental_price, available)
+        
+        elif choice == "5":
+            movie_id = input("Enter Movie ID to delete: ")
+            system.delete_movie(movie_id)
+        
+        elif choice == "6":
+            movie_id = input("Enter Movie ID to rent: ")
+            system.rent_movie(movie_id)
+        
+        elif choice == "7":
+            print("Exiting the system...")
+            break
+        
+        else:
+            print("Invalid choice. Please try again.")
+
+if __name__ == "__main__":
+    main()
+
+3rd exp Create an application to calculate interest for FDs, RDs based on certain conditions using inheritance.
+# Base class: Deposit
+class Deposit:
+    def __init__(self, principal, rate_of_interest, years):
+        self.principal = principal
+        self.rate_of_interest = rate_of_interest
+        self.years = years
+
+    def calculate_interest(self):
+        raise NotImplementedError("Subclasses should implement this method!")
+
+    def total_amount(self):
+        # Total amount after interest is added
+        return self.principal + self.calculate_interest()
+
+# Class for Fixed Deposit (FD)
+class FixedDeposit(Deposit):
+    def __init__(self, principal, rate_of_interest, years):
+        super().__init__(principal, rate_of_interest, years)
+
+    def calculate_interest(self):
+        # Compound Interest formula: A = P * (1 + r/n)^(nt)
+        # Where:
+        # A = Amount (principal + interest)
+        # P = principal
+        # r = rate of interest (as decimal)
+        # t = time in years
+        # n = number of times the interest is compounded per year (1 for yearly)
+        n = 1  # Compounded yearly
+        r = self.rate_of_interest / 100  # Convert percentage to decimal
+        t = self.years
+
+        interest = self.principal * (1 + r / n) ** (n * t) - self.principal
+        return interest
+
+# Class for Recurring Deposit (RD)
+class RecurringDeposit(Deposit):
+    def __init__(self, principal_per_month, rate_of_interest, years):
+        self.principal_per_month = principal_per_month
+        super().__init__(principal_per_month, rate_of_interest, years)
+
+    def calculate_interest(self):
+        # Compound Interest for RD with quarterly compounding:
+        # Formula used for RD interest calculation is:
+        # A = P * ((1 + r/n)^(nt) - 1) / (1 - (1 + r/n)^(-n))
+        n = 4  # Compounded quarterly
+        r = self.rate_of_interest / 100  # Convert percentage to decimal
+        t = self.years
+        principal = self.principal_per_month * 3 * t  # Total principal deposited during the period (quarterly)
+
+        interest = principal * ((1 + r / n) ** (n * t) - 1) / (1 - (1 + r / n) ** (-n)) - principal
+        return interest
+
+# Application to calculate interest for FD and RD
+def main():
+    print("Welcome to the Interest Calculation System!")
+
+    # Fixed Deposit Case
+    print("\nFixed Deposit Calculation:")
+    fd_principal = float(input("Enter principal amount for FD: $"))
+    fd_rate_of_interest = float(input("Enter rate of interest for FD (in %): "))
+    fd_years = int(input("Enter the number of years for FD: "))
+
+    fd = FixedDeposit(fd_principal, fd_rate_of_interest, fd_years)
+    fd_interest = fd.calculate_interest()
+    fd_total = fd.total_amount()
+
+    print(f"\nFD Interest: ${fd_interest:.2f}")
+    print(f"Total Amount after {fd_years} years: ${fd_total:.2f}")
+
+    # Recurring Deposit Case
+    print("\nRecurring Deposit Calculation:")
+    rd_monthly_principal = float(input("Enter monthly deposit amount for RD: $"))
+    rd_rate_of_interest = float(input("Enter rate of interest for RD (in %): "))
+    rd_years = int(input("Enter the number of years for RD: "))
+
+    rd = RecurringDeposit(rd_monthly_principal, rd_rate_of_interest, rd_years)
+    rd_interest = rd.calculate_interest()
+    rd_total = rd.total_amount()
+
+    print(f"\nRD Interest: ${rd_interest:.2f}")
+    print(f"Total Amount after {rd_years} years: ${rd_total:.2f}")
+
+if __name__ == "__main__":
+    main()
+
+exp 4 Develop Java programs using core concepts such as data structures, collections, and multithreading to manage and manipulate data. (easy)
+
+import java.util.ArrayList;
+import java.util.Scanner;
+
+class Employee {
+    int id;
+    String name;
+    double salary;
+
+    // Constructor to initialize employee details
+    public Employee(int id, String name, double salary) {
+        this.id = id;
+        this.name = name;
+        this.salary = salary;
+    }
+
+    // Method to display employee details
+    @Override
+    public String toString() {
+        return "ID: " + id + ", Name: " + name + ", Salary: $" + salary;
+    }
+}
+
+public class EmployeeManagementSystem {
+    // Create an ArrayList to store Employee objects
+    private ArrayList<Employee> employeeList = new ArrayList<>();
+    private Scanner scanner = new Scanner(System.in);
+
+    // Method to add an employee
+    public void addEmployee() {
+        System.out.println("Enter Employee ID:");
+        int id = scanner.nextInt();
+        scanner.nextLine();  // Consume newline
+        System.out.println("Enter Employee Name:");
+        String name = scanner.nextLine();
+        System.out.println("Enter Employee Salary:");
+        double salary = scanner.nextDouble();
+
+        // Create an employee object and add it to the list
+        Employee employee = new Employee(id, name, salary);
+        employeeList.add(employee);
+        System.out.println("Employee added successfully!");
+    }
+
+    // Method to update employee details
+    public void updateEmployee() {
+        System.out.println("Enter Employee ID to update:");
+        int id = scanner.nextInt();
+        scanner.nextLine();  // Consume newline
+
+        Employee employee = findEmployeeById(id);
+        if (employee != null) {
+            System.out.println("Enter new Employee Name:");
+            String name = scanner.nextLine();
+            System.out.println("Enter new Employee Salary:");
+            double salary = scanner.nextDouble();
+
+            // Update the employee's details
+            employee.name = name;
+            employee.salary = salary;
+            System.out.println("Employee updated successfully!");
+        } else {
+            System.out.println("Employee with ID " + id + " not found!");
+        }
+    }
+
+    // Method to remove an employee by ID
+    public void removeEmployee() {
+        System.out.println("Enter Employee ID to remove:");
+        int id = scanner.nextInt();
+
+        Employee employee = findEmployeeById(id);
+        if (employee != null) {
+            employeeList.remove(employee);
+            System.out.println("Employee removed successfully!");
+        } else {
+            System.out.println("Employee with ID " + id + " not found!");
+        }
+    }
+
+    // Method to search an employee by ID
+    public void searchEmployee() {
+        System.out.println("Enter Employee ID to search:");
+        int id = scanner.nextInt();
+
+        Employee employee = findEmployeeById(id);
+        if (employee != null) {
+            System.out.println("Employee found: " + employee);
+        } else {
+            System.out.println("Employee with ID " + id + " not found!");
+        }
+    }
+
+    // Helper method to find an employee by ID
+    private Employee findEmployeeById(int id) {
+        for (Employee employee : employeeList) {
+            if (employee.id == id) {
+                return employee;
+            }
+        }
+        return null;
+    }
+
+    // Method to display all employees
+    public void displayAllEmployees() {
+        if (employeeList.isEmpty()) {
+            System.out.println("No employees found.");
+        } else {
+            System.out.println("Employee List:");
+            for (Employee employee : employeeList) {
+                System.out.println(employee);
+            }
+        }
+    }
+
+    // Main method to run the program
+    public static void main(String[] args) {
+        EmployeeManagementSystem system = new EmployeeManagementSystem();
+        Scanner scanner = new Scanner(System.in);
+
+        while (true) {
+            System.out.println("\nEmployee Management System");
+            System.out.println("1. Add Employee");
+            System.out.println("2. Update Employee");
+            System.out.println("3. Remove Employee");
+            System.out.println("4. Search Employee by ID");
+            System.out.println("5. Display All Employees");
+            System.out.println("6. Exit");
+            System.out.print("Enter your choice: ");
+
+            int choice = scanner.nextInt();
+
+            switch (choice) {
+                case 1:
+                    system.addEmployee();
+                    break;
+                case 2:
+                    system.updateEmployee();
+                    break;
+                case 3:
+                    system.removeEmployee();
+                    break;
+                case 4:
+                    system.searchEmployee();
+                    break;
+                case 5:
+                    system.displayAllEmployees();
+                    break;
+                case 6:
+                    System.out.println("Exiting...");
+                    scanner.close();
+                    return;
+                default:
+                    System.out.println("Invalid choice! Please try again.");
+            }
+        }
+    }
+}
